@@ -8,11 +8,27 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField]
     float moveSpeed;
-    float horizontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
+    [SerializeField]
+    float groundDrag;
     [SerializeField]
     Transform orientation;
+
+    //variables related to ground check
+    [Header("GroundCheck")]
+    [SerializeField] 
+    float playerHeight;
+    [SerializeField]
+    LayerMask whatIsGround;
+    bool grounded;
+
+    //input vars
+    float horizontalInput;
+    float verticalInput;
+
+    //var to track move direction
+    Vector3 moveDirection;
+    
+    //var to reference rigidbody
     Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -42,10 +58,34 @@ public class PlayerMovement : MonoBehaviour
         //add force in move direction
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
+
+     private void SpeedControl()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if(flatVel.magnitude > moveSpeed)
+        {
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
         MyInput();
+        SpeedControl();
+
+        if(grounded)
+        {
+            rb.drag = groundDrag;
+        }
+        else
+        {
+            rb.drag = 0;
+        }
     }
 
     void FixedUpdate() 
