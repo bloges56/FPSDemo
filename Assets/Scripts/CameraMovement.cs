@@ -12,6 +12,7 @@ public class CameraMovement : MonoBehaviour
 
     //get reference to orientation
     public Transform orientation;
+    public Transform player;
 
     //variables to track current rotation of camera
     float xRotation;
@@ -41,5 +42,6 @@ public class CameraMovement : MonoBehaviour
         //rotate camera and orientation
         transform.rotation = (Quaternion.Euler(xRotation, yRotation, 0f));
         orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
+        player.rotation = Quaternion.Euler(0f, yRotation, 0f);
     }
 }

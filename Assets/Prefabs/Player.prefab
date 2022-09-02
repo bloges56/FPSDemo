@@ -42,9 +42,10 @@ GameObject:
   - component: {fileID: 9103063802562821956}
   - component: {fileID: 9103063802562821957}
   - component: {fileID: 9103063802562821958}
+  - component: {fileID: 1631635028754165411}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +107,22 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1631635028754165411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103063802562821955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac9a6bc469ab6a40a76599e13418674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawn: {fileID: 0}
+  bullet: {fileID: 7908244564392286819, guid: 8f6e831234d6bac4dab0f9f439e851ef, type: 3}
+  shootButton: 323
+  fireRate: 0.2
 --- !u!1 &9103063802786542348
 GameObject:
   m_ObjectHideFlags: 0
