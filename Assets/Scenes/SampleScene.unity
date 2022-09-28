@@ -353,7 +353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566715563}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: -0.28, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -408,8 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4af40f78c25dab41a224d727c1b4ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 700
-  sensY: 700
+  sensX: 1400
+  sensY: 1400
   orientation: {fileID: 946965136}
   player: {fileID: 590098441}
 --- !u!81 &1609155134
@@ -483,6 +483,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1631635028754165411, guid: 738fad5bb8755504abc5750cb8b88a8a, type: 3}
+      propertyPath: fireRate
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 1631635028754165411, guid: 738fad5bb8755504abc5750cb8b88a8a, type: 3}
       propertyPath: bulletSpawn
       value: 

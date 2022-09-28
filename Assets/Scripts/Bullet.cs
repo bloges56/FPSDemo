@@ -14,6 +14,11 @@ public class Bullet : MonoBehaviour
     //reference to orientation
     Transform playerCam;
 
+    //time until bullet is deleted
+    [SerializeField]
+    float lifeSpan;
+
+    float timeAlive;
 
     // Start is called before the first frame update
     void Start()
@@ -21,5 +26,14 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerCam = GameObject.FindGameObjectWithTag("MainCamera").transform;
         rb.AddForce(playerCam.forward * speed, ForceMode.Impulse);
+    }
+
+    void Update()
+    {
+        timeAlive += Time.deltaTime;
+        if(timeAlive > lifeSpan)
+        {
+            Destroy(gameObject);
+        }
     }
 }
