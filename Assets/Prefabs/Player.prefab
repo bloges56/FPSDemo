@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 9103063802562821957}
   - component: {fileID: 9103063802562821958}
   - component: {fileID: 1631635028754165411}
+  - component: {fileID: 6208855053393051885}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -96,7 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612ad49ee11ab5f42a63038a9cafef8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
+  groundSpeed: 10
+  wallRunSpeed: 5
   groundDrag: 5
   orientation: {fileID: 9103063802865667656}
   jumpForce: 10
@@ -107,6 +109,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  wallrunning: 0
 --- !u!114 &1631635028754165411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +125,39 @@ MonoBehaviour:
   bulletSpawn: {fileID: 0}
   bullet: {fileID: 7908244564392286819, guid: 8f6e831234d6bac4dab0f9f439e851ef, type: 3}
   shootButton: 323
-  fireRate: 0.2
+  fireRate: 0.1
+--- !u!114 &6208855053393051885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9103063802562821955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071724022e3b0044b852ac170d07574e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 128
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  wallRunForce: 50
+  wallClimbSpeed: 10
+  maxWallRunTime: 5
+  wallJumpUpForce: 7
+  wallJunmpSideForce: 12
+  jumpKey: 32
+  upwardsRunKey: 304
+  downwardsRunKey: 306
+  wallCheckDistance: 1
+  minJumpHeight: 1
+  wallLeft: 0
+  wallRight: 0
+  orientation: {fileID: 9103063802865667656}
+  exitWallTime: 0.2
 --- !u!1 &9103063802786542348
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,10 @@ public class PlayerMovement : MonoBehaviour
     //variables related to movement
     [Header("Movement")]
     [SerializeField]
+    float groundSpeed;
     float moveSpeed;
+    [SerializeField]
+    float wallRunSpeed;
     [SerializeField]
     float groundDrag;
     [SerializeField]
@@ -33,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     LayerMask whatIsGround;
     bool grounded;
 
+    WallRunning wr;
+    public bool wallrunning;
     //input vars
     float horizontalInput;
     float verticalInput;
@@ -53,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
         //start ready to jump
         readyToJump = true;
+        wr = GetComponent<WallRunning>();
 
     }
 
@@ -79,9 +85,16 @@ public class PlayerMovement : MonoBehaviour
     //method to move player
     private void MovePlayer()
     {
-        //determine direction to move
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+        if(wallrunning)
+        {
+            moveDirection = orientation.forward * verticalInput;
+        }
+        else
+        {
+            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        }
+        
+        
         //add force in move direction
         rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
@@ -106,8 +119,18 @@ public class PlayerMovement : MonoBehaviour
         //reset vertical velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
+        if(!wallrunning)
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+        else
+        {
+            rb.velocity = new Vector3(0f, 0f, 0f);
+            Vector3 wallNormal = wr.wallRight ? wr.rightWallhit.normal : wr.leftWallhit.normal;
+            rb.AddForce((transform.up - wallNormal).normalized * jumpForce, ForceMode.Impulse);
+        }
         //add force in vertical direction
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
     }
 
     //method to reset jump
@@ -131,6 +154,15 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.drag = 0;
+        }
+        if(wallrunning)
+        {
+            moveSpeed = wallRunSpeed;
+        }
+        else
+        {
+            moveSpeed = groundSpeed;
+            rb.useGravity = true;
         }
     }
 
