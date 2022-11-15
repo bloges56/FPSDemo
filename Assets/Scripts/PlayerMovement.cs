@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     //variables related to movement
     [Header("Movement")]
@@ -13,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     float wallRunSpeed;
     [SerializeField]
     float groundDrag;
-    [SerializeField]
+    
     Transform orientation;
 
     //vars related to jumping
@@ -47,10 +49,32 @@ public class PlayerMovement : MonoBehaviour
     
     //var to reference rigidbody
     Rigidbody rb;
+
+    [SerializeField]
+    GameObject camPrefab;
+    public override void OnNetworkSpawn()
+    {
+        if(!IsOwner) 
+        {
+            this.enabled = false;
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        //get rigidBody
+        GameObject camera  = Instantiate(camPrefab, new Vector3(0,0,0), Quaternion.identity);
+        camera.GetComponent<Camera>().GetComponent<CameraMovement>().player = transform.GetChild(0).transform;
+        camera.GetComponent<Camera>().GetComponent<CameraMovement>().orientation = transform.GetChild(1).transform;
+        camera.GetComponent<Camera>().GetComponent<MoveCamera>().cameraPosition = transform.GetChild(2).transform;
+        transform.gameObject.GetComponent<Shoot>().bulletSpawn = camera.GetComponent<Camera>().transform.GetChild(0).transform;
+        
+        if(IsServer)
+        {   
+            camera.GetComponent<NetworkObject>().Spawn();
+        }
+
+       //get rigidBody
         rb = GetComponent<Rigidbody>();
 
         //freeze rotation
@@ -59,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
         //start ready to jump
         readyToJump = true;
         wr = GetComponent<WallRunning>();
+
+        orientation = transform.GetChild(1).transform;
 
     }
 

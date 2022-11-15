@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class WallRunning : MonoBehaviour
+public class WallRunning : NetworkBehaviour
 {
     [Header("Wallrunning")]
     public LayerMask whatIsWall;
@@ -41,8 +42,18 @@ public class WallRunning : MonoBehaviour
     public float exitWallTime;
     private float exitWallTimer;
 
+
+    public override void OnNetworkSpawn()
+    {
+        if(!IsOwner)
+        {
+            this.enabled = false;
+        }
+    }
+
     private void Start()
     {
+        orientation = transform.GetChild(1).transform;
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerMovement>();
     }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovement : NetworkBehaviour
 {
     //exposed variables for horizontal and vertical sensitivity
     [SerializeField]
@@ -12,12 +13,22 @@ public class CameraMovement : MonoBehaviour
 
     //get reference to orientation
     public Transform orientation;
+
     public Transform player;
 
     //variables to track current rotation of camera
     float xRotation;
     float yRotation;
 
+
+    public override void OnNetworkSpawn()
+    {
+        if(!IsOwner) 
+        {
+            this.enabled = false;
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {

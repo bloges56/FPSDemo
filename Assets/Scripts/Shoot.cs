@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Shoot : MonoBehaviour
+public class Shoot : NetworkBehaviour
 {
-    [SerializeField]
-    Transform bulletSpawn;
+    public Transform bulletSpawn;
 
     [SerializeField]
-    Bullet bullet;
+    GameObject bullet;
 
     [SerializeField]
     KeyCode shootButton = KeyCode.Mouse0;
@@ -22,12 +22,20 @@ public class Shoot : MonoBehaviour
         readyToShoot = true;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if(!IsOwner)
+        {
+            this.enabled = false;
+        }
+    }
+
     private void MyInput()
     {
         if(Input.GetKey(shootButton)  && readyToShoot)
         {
             readyToShoot = false;
-            Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
+            Instantiate(bullet, bulletSpawn.position, Quaternion.identity).GetComponent<NetworkObject>().Spawn();
             Invoke(nameof(ResetBullet), fireRate);
         }
     }
